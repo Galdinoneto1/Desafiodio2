@@ -1,0 +1,31 @@
+
+-- Recuperação simples
+SELECT * FROM Cliente;
+
+-- Recuperação de veículos de um Cliente
+SELECT * FROM Veiculo WHERE ClienteID = 1;
+
+-- Cálculo do preço total de uma ordem de serviço
+SELECT OrdemID, SUM(Preco) AS PrecoTotal
+FROM ServicoOrdem
+JOIN Servico ON ServicoOrdem.ServicoID = Servico.ServicoID
+WHERE OrdemID = 1
+GROUP BY OrdemID;
+
+
+-- Listagem de ordens de serviço em aberto
+SELECT * FROM OrdemServico WHERE DataFechamento IS NULL;
+
+
+
+-- Funcionários que executaram mais serviços
+SELECT Funcionario.Nome, COUNT(ServicoOrdem.ServicoID) AS TotalServicos
+FROM Funcionario
+JOIN OrdemServico ON Funcionario.FuncionarioID = OrdemServico.FuncionarioID
+JOIN ServicoOrdem ON OrdemServico.OrdemID = ServicoOrdem.OrdemID
+GROUP BY Funcionario.Nome
+ORDER BY TotalServicos DESC;
+
+
+-- Peças de reposição mais caras
+SELECT * FROM PecaReposicao ORDER BY Preco DESC;
